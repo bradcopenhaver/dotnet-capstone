@@ -1,0 +1,216 @@
+﻿{
+  {
+    
+    
+    
+    "Start": "int",
+
+    
+    
+    
+    
+    "Count": "int",
+
+    
+    
+    "ResultCount": "int",
+
+    
+    
+    "Results": [
+      {
+        
+        "Links": "links",
+
+        "Id": {
+
+          
+          
+          "MatchId": "guid",
+
+          
+          
+          
+          
+          
+          
+          "GameMode": "int"
+
+        },
+
+        
+        
+        
+        
+        
+        
+        
+        "HopperId": "guid",
+
+        
+        "MapId": "guid",
+
+        
+        
+        
+        
+        "MapVariant": {
+
+          
+          "ResourceType": 3,
+
+          
+          
+          "ResourceId": "guid",
+
+          
+          
+          
+          
+          "OwnerType": "int",
+
+          
+          
+          "Owner": "string"
+        },
+        
+        
+        "GameBaseVariantId": "guid",
+
+        
+        
+        
+        
+        "GameVariant": {
+
+          
+          "ResourceType": 2,
+
+          
+          
+          "ResourceId": "guid",
+
+          
+          
+          
+          
+          "OwnerType": "int",
+
+          
+          
+          "Owner": "string"
+        },
+
+        
+        "MatchDuration": "string",
+
+        
+        
+        
+        
+        
+        "MatchCompletedDate": {
+
+          "ISO8601Date": "string"
+        },
+
+        
+        
+        "Teams": [
+          {
+            
+            
+            "Id": "int",
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            "Score": "uint32",
+
+            
+            "Rank": "int"
+          }
+        ],
+
+        
+        
+        "Players": [
+          {
+            "Player": {
+
+              
+              "Gamertag": "string",
+
+              
+              "Xuid": null
+            },
+
+            
+            
+            "TeamId": "int",
+
+            
+            "Rank": "int",
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            "Result": "int",
+
+            
+            
+            "TotalKills": "int",
+
+            
+            "TotalDeaths": "int",
+
+            
+            
+            "TotalAssists": "int",
+
+            
+            "PreMatchRatings": null,
+
+            
+            "PostMatchRatings": null
+          }
+        ],
+
+        
+        "IsTeamGame": "boolean",
+
+        
+        
+        
+        "SeasonId": null,
+
+        
+        "MatchCompletedDateFidelity": "int"
+      }
+    ]
+  }
+
+}

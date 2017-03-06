@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using HaloClipFinder.Models;
 
 namespace HaloClipFinder.Controllers
 {
@@ -29,6 +30,13 @@ namespace HaloClipFinder.Controllers
 
         public IActionResult Error()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GetPlayerHistory(string gamertag)
+        {
+            ViewBag.MatchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag);
             return View();
         }
     }
