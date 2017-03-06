@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "";
+    var i = 0;
 }
 @foreach (var match in ViewBag.MatchHistory.Results)
 {
@@ -39,6 +40,22 @@
     }
 
     <div class="match">
-       <h4><a href="#">@gameMode -- @matchResult</a></h4>
+       <h4><a class="match" href="#" id="match-@i">@gameMode -- @matchResult </a></h4>
     </div>
+
+        <script>
+            $("#match-@i").click(function () {
+                console.log( "set" );
+                $.ajax({
+                    type: "POST",
+                    url: '/MatchEvents/GetMatchEvents/',
+                    data: {"MatchId": "@match.Id.MatchId" },
+                    datatype: 'html',
+                    success: function (response) {
+                        $("#matchEvents").html(response);
+                    }
+                });
+            })
+        </script>
+    i++;
 }
