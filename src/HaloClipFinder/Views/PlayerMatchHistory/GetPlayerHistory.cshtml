@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "";
 }
 @foreach (var match in ViewBag.MatchHistory.Results)
 {
@@ -38,6 +39,6 @@
     }
 
     <div class="match">
-       <h4>@gameMode -- @matchResult</h4>
+       <h4><a href="#">@gameMode -- @matchResult</a></h4>
     </div>
 }

@@ -32,12 +32,5 @@ namespace HaloClipFinder.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public IActionResult GetPlayerHistory(string gamertag)
-        {
-            ViewBag.MatchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag);
-            return View();
-        }
     }
 }

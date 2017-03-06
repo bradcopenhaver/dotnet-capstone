@@ -5,7 +5,7 @@ $(function () {
         event.preventDefault();
         $.ajax({
             type: "POST",
-            url: '/Home/GetPlayerHistory/',
+            url: '/PlayerMatchHistory/GetPlayerHistory/',
             data: $(this).serialize(),
             datatype: 'json',
             success: function (response) {
