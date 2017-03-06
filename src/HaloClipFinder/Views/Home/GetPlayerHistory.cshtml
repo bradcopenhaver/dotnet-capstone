@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@foreach (var match in ViewBag.MatchHistory.Results)
+{
+    var gameMode = "";
+    var matchResult = "Loss";
+    @if (match.Id.GameMode == "0")
+    {
+        gameMode = "Error";
+    }
+    else if (match.Id.GameMode == "1")
+    {
+        gameMode = "Arena";
+    }
+    else if (match.Id.GameMode == "2")
+    {
+        gameMode = "Campaign";
+    }
+    else if (match.Id.GameMode == "3")
+    {
+        gameMode = "Custom";
+    }
+    else if (match.Id.GameMode == "4")
+    {
+        gameMode = "Warzone";
+    }
+
+    @foreach (var team in match.Teams)
+    {
+        if (team.Rank == "1" && team.Id == match.Players[0].TeamId)
+        {
+            matchResult = "Win";
+            break;
+        }
+    }
+
+    <div class="match">
+       <h4>@gameMode -- @matchResult</h4>
+    </div>
+}

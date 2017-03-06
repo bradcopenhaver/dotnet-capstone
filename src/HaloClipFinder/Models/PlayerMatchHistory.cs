@@ -62,9 +62,36 @@ namespace HaloClipFinder.Models
             public object PostMatchRatings { get; set; }
         }
 
+        public class Links
+        {
+            public StatsMatchDetails StatsMatchDetails { get; set; }
+            public UgcFilmManifest UgcFilmManifest { get; set; }
+        }
+
+        public class StatsMatchDetails
+        {
+            public string AuthorityId { get; set; }
+            public string Path { get; set; }
+            public object QueryString { get; set; }
+            public string RetryPolicyId { get; set; }
+            public string TopicName { get; set; }
+            public int AcknowledgementTypeId { get; set; }
+            public bool AuthenticationLifetimeExtensionSupported { get; set; }
+        }
+
+        public class UgcFilmManifest
+        {
+            public string AuthorityId { get; set; }
+            public string Path { get; set; }
+            public string QueryString { get; set; }
+            public string RetryPolicyId { get; set; }
+            public string TopicName { get; set; }
+            public int AcknowledgementTypeId { get; set; }
+            public bool AuthenticationLifetimeExtensionSupported { get; set; }
+        }
         public class Result
         {
-            public string Links { get; set; }
+            public Links Links { get; set; }
             public Id Id { get; set; }
             public string HopperId { get; set; }
             public string MapId { get; set; }
@@ -74,13 +101,13 @@ namespace HaloClipFinder.Models
             public string MatchDuration { get; set; }
             public MatchCompletedDate MatchCompletedDate { get; set; }
             public List<Team> Teams { get; set; }
-            public List<Player> Players { get; set; }
+            public List<Players> Players { get; set; }
             public string IsTeamGame { get; set; }
             public object SeasonId { get; set; }
             public string MatchCompletedDateFidelity { get; set; }
         }
 
-        public class RootObject
+        public class Root
         {
             public string Start { get; set; }
             public string Count { get; set; }
@@ -88,7 +115,7 @@ namespace HaloClipFinder.Models
             public List<Result> Results { get; set; }
         }
 
-        public static PlayerMatchHistory GetPlayerMatchHistory(string gamertag)
+        public static PlayerMatchHistory.Root GetPlayerMatchHistory(string gamertag)
         {
             RestClient client = new RestClient("https://www.haloapi.com/");
             RestRequest request = new RestRequest($"/stats/h5/players/{gamertag}/matches?&count=10");
@@ -100,7 +127,7 @@ namespace HaloClipFinder.Models
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
 
-            PlayerMatchHistory returnedHistory = JsonConvert.DeserializeObject<PlayerMatchHistory>(response.Content);
+            PlayerMatchHistory.Root returnedHistory = JsonConvert.DeserializeObject<PlayerMatchHistory.Root>(response.Content);
 
             return returnedHistory;
         }
