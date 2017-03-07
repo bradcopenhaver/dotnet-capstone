@@ -2,14 +2,12 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "";
 }
-@foreach (var mEvent in ViewBag.MatchEvents)
+@for (int i = 0; i < ViewBag.MatchMedals.Count; i++)
 {
-    if (mEvent.EventName == "Medal")
-    {
-        <div>
-            <p>medal: @mEvent.MedalId -- time: @mEvent.TimeSinceStart</p>
-        </div>
+    <div>
+        <p>medal: @ViewBag.MatchMedals[i].name -- time: @ViewBag.MatchEvents[i].TimeSinceStart</p>
+    </div>
 
-    }
-}
+} 
