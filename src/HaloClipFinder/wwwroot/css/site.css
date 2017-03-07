@@ -36,3 +36,11 @@ textarea {
     display: none
   }
 }
+.medalDisplay {
+}
+.medal {
+    width: 74px;
+    height: 74px;
+    display:inline-block;
+    background: url(../images/medals_sheet.png);
+}

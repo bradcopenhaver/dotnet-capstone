@@ -6,8 +6,15 @@
 }
 @for (int i = 0; i < ViewBag.MatchMedals.Count; i++)
 {
-    <div>
-        <p>medal: @ViewBag.MatchMedals[i].name -- time: @ViewBag.MatchEvents[i].TimeSinceStart</p>
+    <div class="medalDisplay">
+        @{ 
+            string left = ViewBag.MatchMedals[i].spriteLocation.left + "px";
+            string top = ViewBag.MatchMedals[i].spriteLocation.top + "px";
+        }
+        <img class="medal" id="medal-@i"  src="~/images/sprite.png" />
+        <p>@ViewBag.MatchMedals[i].name -- time: @ViewBag.MatchEvents[i].TimeSinceStart</p>
     </div>
-
+    <script>
+        $("#medal-@i").(this).css('background-position', '@left @top');
+    </script>
 } 
