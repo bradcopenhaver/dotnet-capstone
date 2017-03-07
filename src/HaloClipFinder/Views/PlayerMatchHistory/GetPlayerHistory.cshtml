@@ -49,7 +49,7 @@
                 $.ajax({
                     type: "POST",
                     url: '/MatchEvents/GetMatchEvents/',
-                    data: {"MatchId": "@match.Id.MatchId" },
+                    data: {"MatchId": "@match.Id.MatchId", "GamerTag": "@match.Players[0].Player.Gamertag" },
                     datatype: 'html',
                     success: function (response) {
                         $("#matchEvents").html(response);

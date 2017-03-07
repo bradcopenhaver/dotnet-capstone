@@ -18,9 +18,9 @@ namespace HaloClipFinder.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetMatchEvents(string MatchId)
+        public IActionResult GetMatchEvents(string MatchId, string GamerTag)
         {
-            ViewBag.MatchEvents = MatchEvents.GetMatchEvents(MatchId);
+            ViewBag.MatchEvents = MatchEvents.GetMatchEvents(MatchId, GamerTag);
 
             return View();
         }

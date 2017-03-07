@@ -87,7 +87,7 @@ namespace HaloClipFinder.Models
             public string IsCompleteSetOfEvents { get; set; }
             public object Links { get; set; }
         }
-        public static MatchEvents.Root GetMatchEvents(string matchId)
+        public static List<GameEvent> GetMatchEvents(string matchId, string gamertag)
         {
             RestClient client = new RestClient("https://www.haloapi.com/");
             RestRequest request = new RestRequest($"/stats/h5/matches/{matchId}/events?");
@@ -99,9 +99,19 @@ namespace HaloClipFinder.Models
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
 
-            Root returnedEvents = JsonConvert.DeserializeObject<Root>(response.Content);
+            List<GameEvent> relevantEvents = new List<GameEvent> { };
 
-            return returnedEvents;
+            Root allEvents = JsonConvert.DeserializeObject<Root>(response.Content);
+
+            for (int i = 0; i < allEvents.GameEvents.Count; i++)
+            {
+                if (allEvents.GameEvents[i].EventName == "Medal" && allEvents.GameEvents[i].Player.Gamertag == gamertag)
+                {
+                    relevantEvents.Add(allEvents.GameEvents[i]);
+                }
+            }
+
+            return relevantEvents;
         }
 
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
