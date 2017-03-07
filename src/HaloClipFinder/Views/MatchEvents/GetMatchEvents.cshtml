@@ -11,10 +11,10 @@
             string left = ViewBag.MatchMedals[i].spriteLocation.left + "px";
             string top = ViewBag.MatchMedals[i].spriteLocation.top + "px";
         }
-        <img class="medal" id="medal-@i"  src="~/images/sprite.png" />
+        <img class="medal" id="medal-@i" style="background-position:left -@left top -@top" src="~/images/sprite.png" />
         <p>@ViewBag.MatchMedals[i].name -- time: @ViewBag.MatchEvents[i].TimeSinceStart</p>
     </div>
-    <script>
+    @*<script>
         $("#medal-@i").(this).css('background-position', '@left @top');
-    </script>
+    </script>*@
 } 
