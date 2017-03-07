@@ -20,7 +20,14 @@ namespace HaloClipFinder.Controllers
         [HttpPost]
         public IActionResult GetMatchEvents(string MatchId, string GamerTag)
         {
-            ViewBag.MatchEvents = MatchEvents.GetMatchEvents(MatchId, GamerTag);
+            List<MatchEvents.GameEvent> relevantEventsList = MatchEvents.GetMatchEvents(MatchId, GamerTag);
+            List<Medal.Root> allMedals = new List<Medal.Root> { };
+            for (int i = 0; i < relevantEventsList.Count; i++)
+            {
+                allMedals.Add(Medal.GetMedal(relevantEventsList[i].MedalId));
+            }
+            ViewBag.MatchEvents = relevantEventsList;
+            ViewBag.MatchMedals = allMedals;
 
             return View();
         }
