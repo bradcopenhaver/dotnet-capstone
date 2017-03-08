@@ -9,6 +9,15 @@
             <form id="GetPlayerHistory">
                 <label>Gamertag:</label>
                 <input name="gamertag" required /><br />
+
+                <label>Get matches from:</label>
+                <select name="modes">
+                    <option value="arena,warzone" selected>Arena and Warzone</option>
+                    <option value="arena">Arena</option>
+                    <option value="warzone">Warzone</option>
+                    <option value="custom">Custom</option>
+                </select>
+
                 <input type="submit" class="btn goBtn" value="Go" />
             </form>
         </div>

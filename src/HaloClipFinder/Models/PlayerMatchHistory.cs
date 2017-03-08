@@ -119,10 +119,10 @@ namespace HaloClipFinder.Models
             public List<Result> Results { get; set; }
         }
 
-        public static PlayerMatchHistory.Root GetPlayerMatchHistory(string gamertag)
+        public static PlayerMatchHistory.Root GetPlayerMatchHistory(string gamertag, string modes)
         {
             RestClient client = new RestClient("https://www.haloapi.com/");
-            RestRequest request = new RestRequest($"/stats/h5/players/{gamertag}/matches?&count=10");
+            RestRequest request = new RestRequest($"/stats/h5/players/{gamertag}/matches?&modes={modes}&count=10");
             request.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
             RestResponse response = new RestResponse();
 

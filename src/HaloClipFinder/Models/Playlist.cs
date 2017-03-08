@@ -22,8 +22,8 @@ namespace HaloClipFinder.Models
         public static Playlist GetPlaylist(string id)
         {
             JArray o1 = JArray.Parse(File.ReadAllText(@"wwwroot/lib/Playlists.json"));
-            List<JToken> thisPlaylistList = o1.Children().Where(p => p["id"].ToString() == id).ToList();
-            Playlist thisPlaylist = JsonConvert.DeserializeObject<Playlist>(thisPlaylistList[0].ToString());
+            JToken thisPlaylistToken = o1.FirstOrDefault(p => p["id"].ToString() == id);
+            Playlist thisPlaylist = JsonConvert.DeserializeObject<Playlist>(thisPlaylistToken.ToString());
 
             return thisPlaylist;
         }

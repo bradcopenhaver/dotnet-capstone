@@ -18,9 +18,9 @@ namespace HaloClipFinder.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetPlayerHistory(string gamertag)
+        public IActionResult GetPlayerHistory(string gamertag, string modes)
         {
-            ViewBag.MatchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag);
+            ViewBag.MatchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag, modes);
             return View();
         }
     }

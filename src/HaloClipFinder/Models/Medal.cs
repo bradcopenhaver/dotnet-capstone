@@ -35,8 +35,8 @@ namespace HaloClipFinder.Models
         public static Root GetMedal(string id)
         {
             JArray o1 = JArray.Parse(File.ReadAllText(@"wwwroot/lib/Medals.json"));
-            List<JToken> thisMedalList = o1.Children().Where(r => r["id"].ToString() == id).ToList();
-            Root thisMedal = JsonConvert.DeserializeObject<Root>(thisMedalList[0].ToString());
+            JToken thisMedalToken = o1.FirstOrDefault(r => r["id"].ToString() == id);
+            Root thisMedal = JsonConvert.DeserializeObject<Root>(thisMedalToken.ToString());
 
             return thisMedal;
         }

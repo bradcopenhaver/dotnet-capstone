@@ -14,8 +14,8 @@ namespace HaloClipFinder.Models
         public static string GetGameBaseVariant(string id)
         {
             JArray o1 = JArray.Parse(File.ReadAllText(@"wwwroot/lib/BaseGameVariants.json"));
-            JToken thisGameBaseVariantList = o1.FirstOrDefault(b => b["id"].ToString() == id);
-            string thisGameBaseVariant = thisGameBaseVariantList["name"].ToString();
+            JToken thisGameBaseVariantToken = o1.FirstOrDefault(b => b["id"].ToString() == id);
+            string thisGameBaseVariant = thisGameBaseVariantToken["name"].ToString();
 
             return thisGameBaseVariant;
         }
