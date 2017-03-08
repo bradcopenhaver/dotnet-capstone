@@ -20,7 +20,18 @@ namespace HaloClipFinder.Controllers
         [HttpPost]
         public IActionResult GetPlayerHistory(string gamertag, string modes)
         {
-            ViewBag.MatchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag, modes);
+            PlayerMatchHistory.Root matchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag, modes);
+
+            if (int.Parse(matchHistory.ResultCount) <1)
+            {
+                RedirectToAction("NoResults");
+            }
+            ViewBag.MatchHistory = matchHistory;
+            return View();
+        }
+
+        public IActionResult NoResults()
+        {
             return View();
         }
     }

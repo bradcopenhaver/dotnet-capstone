@@ -48,7 +48,7 @@ textarea {
     border: 1px solid gray;
     border-radius: 10px;
     padding:30px;
-    margin: 15px;
+    margin: 15px 0px;
 }
 .goBtn {
     display:block;
@@ -71,5 +71,5 @@ input {
     position:relative;
 }
 .medalDisplay:hover {
-    height:auto;
+    height:148px;
 }
