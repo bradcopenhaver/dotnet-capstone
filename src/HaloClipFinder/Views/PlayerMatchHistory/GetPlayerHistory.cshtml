@@ -7,30 +7,8 @@
 }
 <h4>Recent Matches</h4>
 @foreach (var match in ViewBag.MatchHistory.Results)
-{
-    var gameMode = "";
-    var matchResult = "Loss";
-    @if (match.Id.GameMode == "0")
-    {
-        gameMode = "Error";
-    }
-    else if (match.Id.GameMode == "1")
-    {
-        gameMode = "Arena";
-    }
-    else if (match.Id.GameMode == "2")
-    {
-        gameMode = "Campaign";
-    }
-    else if (match.Id.GameMode == "3")
-    {
-        gameMode = "Custom";
-    }
-    else if (match.Id.GameMode == "4")
-    {
-        gameMode = "Warzone";
-    }
-
+{   
+    var matchResult = "Loss";   
     @foreach (var team in match.Teams)
     {
         if (team.Rank == "1" && team.Id == match.Players[0].TeamId)
@@ -41,7 +19,8 @@
     }
 
     <div class="match">
-       <h4><a href="#" id="match-@i">@gameMode -- @matchResult </a></h4>
+       <h4><a href="#" id="match-@i">@match.Playlist.name -- @matchResult </a></h4>
+        <h5>on </h5>
     </div>
 
         <script>

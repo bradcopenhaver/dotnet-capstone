@@ -105,6 +105,7 @@ namespace HaloClipFinder.Models
             public string IsTeamGame { get; set; }
             public object SeasonId { get; set; }
             public string MatchCompletedDateFidelity { get; set; }
+            public Playlist Playlist { get; set; }
         }
 
         public class Root
@@ -129,6 +130,21 @@ namespace HaloClipFinder.Models
 
             PlayerMatchHistory.Root returnedHistory = JsonConvert.DeserializeObject<PlayerMatchHistory.Root>(response.Content);
 
+            for (int i = 0; i < returnedHistory.Results.Count; i++)
+            {
+                if (returnedHistory.Results[i].HopperId != null)
+                {
+                    returnedHistory.Results[i].Playlist = Playlist.GetPlaylist(returnedHistory.Results[i].HopperId);
+                }
+                else
+                {
+                    returnedHistory.Results[i].Playlist = new Playlist() { name = "Customs" };
+                }
+                if (returnedHistory.Results[i].MapVariant.ResourceId == "3")
+                {
+
+                }
+            }
             return returnedHistory;
         }
 
