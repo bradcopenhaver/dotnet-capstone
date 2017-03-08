@@ -2,7 +2,8 @@
 
 $(function () {
     $("#GetPlayerHistory").submit(function (event) {
-        $("#gameHistoryResponse").html("<h3>Retrieving...</h3>")
+        $("#matchEvents").html("");
+        $("#gameHistoryResponse").html("<h3>Retrieving...</h3>");
         event.preventDefault();
         $.ajax({
             type: "POST",
