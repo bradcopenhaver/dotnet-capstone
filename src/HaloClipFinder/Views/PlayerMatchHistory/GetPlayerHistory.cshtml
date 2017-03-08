@@ -5,6 +5,7 @@
     Layout = "";
     var i = 0;
 }
+<h4>Recent Matches</h4>
 @foreach (var match in ViewBag.MatchHistory.Results)
 {
     var gameMode = "";
@@ -40,12 +41,12 @@
     }
 
     <div class="match">
-       <h4><a class="match" href="#" id="match-@i">@gameMode -- @matchResult </a></h4>
+       <h4><a href="#" id="match-@i">@gameMode -- @matchResult </a></h4>
     </div>
 
         <script>
             $("#match-@i").click(function () {
-                console.log( "set" );
+                $("#matchEvents").html("<h3>Loading medals...</h3>");
                 $.ajax({
                     type: "POST",
                     url: '/MatchEvents/GetMatchEvents/',

@@ -4,14 +4,22 @@
 @{
     Layout = "";
 }
-@for (int i = 0; i < ViewBag.MatchMedals.Count; i++)
-{
+<h2>Game Medals</h2>
+<div class="gameMedals">
     <div class="medalDisplay">
-        @{ 
-            string left = ViewBag.MatchMedals[i].spriteLocation.left + "px";
-            string top = ViewBag.MatchMedals[i].spriteLocation.top + "px";
-        }
-        <img class="medal" id="medal-@i" style="background-position:left -@left top -@top" src="~/images/sprite.png" />
-        <p>@ViewBag.MatchMedals[i].name -- time: @ViewBag.MatchEvents[i].TimeSinceStart</p>
+        <p>Game</p>
+        <p>Start</p>
+        <p>>>></p>
     </div>
-} 
+    @for (int i = 0; i < ViewBag.MatchMedals.Count; i++)
+    {
+        <div class="medalDisplay">
+            @{ 
+                string left = ViewBag.MatchMedals[i].spriteLocation.left + "px";
+                string top = ViewBag.MatchMedals[i].spriteLocation.top + "px";
+            }
+            <img class="medal" id="medal-@i" style="background-position:left -@left top -@top" src="~/images/sprite.png" />
+            <p>@ViewBag.MatchMedals[i].name @ViewBag.MatchEvents[i].TimeSinceStart</p>
+        </div>
+    } 
+</div>

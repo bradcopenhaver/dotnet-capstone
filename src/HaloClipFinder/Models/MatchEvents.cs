@@ -109,8 +109,7 @@ namespace HaloClipFinder.Models
                 if (allEvents.GameEvents[i].EventName == "Medal" && allEvents.GameEvents[i].Player.Gamertag == gamertag)
                 {
                     TimeSpan time = XmlConvert.ToTimeSpan(allEvents.GameEvents[i].TimeSinceStart);
-                    string timeString = time.ToString(@"dd\.hh\:mm\:ss");
-                    timeString = timeString.TrimStart('0', '.', ':');
+                    string timeString = time.ToString(@"d\d\ hh\hmm\mss\s").TrimStart(' ', 'd', 'h', 'm', 's', '0');
                     allEvents.GameEvents[i].TimeSinceStart = timeString;
                     relevantEvents.Add(allEvents.GameEvents[i]);
                 }
