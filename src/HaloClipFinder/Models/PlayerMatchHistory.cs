@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -136,6 +137,11 @@ namespace HaloClipFinder.Models
             {
                 for (int i = 0; i < returnedHistory.Results.Count; i++)
                 {
+                    //Converts GameCompletedDate from ISO 8601 to readable string
+                    string formattedTime = DateTime.ParseExact(returnedHistory.Results[i].MatchCompletedDate.ISO8601Date.Replace("T", " "), "u", CultureInfo.InvariantCulture).ToString();
+                    returnedHistory.Results[i].MatchCompletedDate.ISO8601Date = formattedTime.Remove(formattedTime.Length-12);
+
+                    //Finds GameBaseVariant from Json
                     returnedHistory.Results[i].GameBaseVariant = GameBaseVariant.GetGameBaseVariant(returnedHistory.Results[i].GameBaseVariantId);
                     if (returnedHistory.Results[i].HopperId != null)
                     {
@@ -145,11 +151,11 @@ namespace HaloClipFinder.Models
                     {
                         returnedHistory.Results[i].Playlist = new Playlist() { name = "Customs" };
                     }
-                
+                    //Finds official mapvariants from API
                     if (returnedHistory.Results[i].MapVariant.OwnerType == "3")
                     {
                         RestRequest requestMap = new RestRequest($"/metadata/h5/metadata/map-variants/{returnedHistory.Results[i].MapVariant.ResourceId}");
-                        requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+                        requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey2);
                         RestResponse responseMap = new RestResponse();
 
                         Task.Run(async () =>
@@ -161,11 +167,11 @@ namespace HaloClipFinder.Models
                         string returnedMap = returnedMapJson["name"].ToString();
                         returnedHistory.Results[i].MapVariant.Name = returnedMap;
                     }
-                    //Finds mapvariants for UGC
+                    //Finds mapvariants for UGC from API
                     else if (returnedHistory.Results[i].MapVariant.OwnerType == "1")
                     {
                         RestRequest requestUgcMap = new RestRequest($"/ugc/h5/players/{returnedHistory.Results[i].MapVariant.Owner}/mapvariants/{returnedHistory.Results[i].MapVariant.ResourceId}");
-                        requestUgcMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+                        requestUgcMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey2);
                         RestResponse responseUgcMap = new RestResponse();
 
                         Task.Run(async () =>

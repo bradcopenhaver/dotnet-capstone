@@ -5,7 +5,7 @@
     Layout = "";
     var i = 0;
 }
-<h4>Recent Matches</h4>
+<h3>Recent Matches</h3>
 @foreach (var match in ViewBag.MatchHistory.Results)
 {   
     var matchResult = "Loss";   
@@ -20,7 +20,8 @@
 
     <div class="match">
        <h4><a href="#" id="match-@i">@match.Playlist.name -- @matchResult </a></h4>
-        <h5>@match.GameBaseVariant on @match.MapVariant.Name -- @match.MatchCompletedDate.ISO8601Date</h5>
+        <h5>@match.GameBaseVariant on @match.MapVariant.Name</h5>
+        <h5> -- @match.MatchCompletedDate.ISO8601Date</h5>
     </div>
 
         <script>

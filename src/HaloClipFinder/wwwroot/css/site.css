@@ -73,3 +73,7 @@ input {
 .medalDisplay:hover {
     height:148px;
 }
+.match {
+    border-top: 1px solid darkgray;
+    margin: 4px auto;
+}
