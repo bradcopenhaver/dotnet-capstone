@@ -22,15 +22,28 @@ namespace HaloClipFinder.Controllers
         {
             PlayerMatchHistory.Root matchHistory = PlayerMatchHistory.GetPlayerMatchHistory(gamertag, modes);
 
-            if (int.Parse(matchHistory.ResultCount) <1)
+            if (matchHistory == null)
             {
-                RedirectToAction("NoResults");
+                return RedirectToAction("InvalidRequest");
             }
-            ViewBag.MatchHistory = matchHistory;
+            else if (int.Parse(matchHistory.ResultCount) <1)
+            {                
+                return RedirectToAction("NoResults", new { id = gamertag });
+            }
+            else
+            {
+                ViewBag.MatchHistory = matchHistory;
+                return View();
+            }
+        }
+
+        public IActionResult NoResults(string id)
+        {
+            ViewBag.gamertag = id;
             return View();
         }
 
-        public IActionResult NoResults()
+        public IActionResult InvalidRequest()
         {
             return View();
         }

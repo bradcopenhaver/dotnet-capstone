@@ -122,7 +122,7 @@ namespace HaloClipFinder.Models
         public static PlayerMatchHistory.Root GetPlayerMatchHistory(string gamertag, string modes)
         {
             RestClient client = new RestClient("https://www.haloapi.com/");
-            RestRequest request = new RestRequest($"/stats/h5/players/{gamertag}/matches?&modes={modes}&count=10");
+            RestRequest request = new RestRequest($"/stats/h5/players/{gamertag}/matches?&modes={modes}&count=8");
             request.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
             RestResponse response = new RestResponse();
 
@@ -132,39 +132,56 @@ namespace HaloClipFinder.Models
             }).Wait();
 
             PlayerMatchHistory.Root returnedHistory = JsonConvert.DeserializeObject<PlayerMatchHistory.Root>(response.Content);
-
-            for (int i = 0; i < returnedHistory.Results.Count; i++)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                returnedHistory.Results[i].GameBaseVariant = GameBaseVariant.GetGameBaseVariant(returnedHistory.Results[i].GameBaseVariantId);
-                if (returnedHistory.Results[i].HopperId != null)
+                for (int i = 0; i < returnedHistory.Results.Count; i++)
                 {
-                    returnedHistory.Results[i].Playlist = Playlist.GetPlaylist(returnedHistory.Results[i].HopperId);
+                    returnedHistory.Results[i].GameBaseVariant = GameBaseVariant.GetGameBaseVariant(returnedHistory.Results[i].GameBaseVariantId);
+                    if (returnedHistory.Results[i].HopperId != null)
+                    {
+                        returnedHistory.Results[i].Playlist = Playlist.GetPlaylist(returnedHistory.Results[i].HopperId);
+                    }
+                    else
+                    {
+                        returnedHistory.Results[i].Playlist = new Playlist() { name = "Customs" };
+                    }
+                
+                    if (returnedHistory.Results[i].MapVariant.OwnerType == "3")
+                    {
+                        RestRequest requestMap = new RestRequest($"/metadata/h5/metadata/map-variants/{returnedHistory.Results[i].MapVariant.ResourceId}");
+                        requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+                        RestResponse responseMap = new RestResponse();
+
+                        Task.Run(async () =>
+                        {
+                            responseMap = await GetResponseContentAsync(client, requestMap) as RestResponse;
+                        }).Wait();
+
+                        JObject returnedMapJson = JObject.Parse(responseMap.Content);
+                        string returnedMap = returnedMapJson["name"].ToString();
+                        returnedHistory.Results[i].MapVariant.Name = returnedMap;
+                    }
+                    ////Finds mapvariants for UGC
+                    //else if (returnedHistory.Results[i].MapVariant.OwnerType == "1")
+                    //{
+                    //    RestRequest requestMap = new RestRequest($"/ugc/h5/players/{returnedHistory.Results[i].MapVariant.Owner}/map-variants/{returnedHistory.Results[i].MapVariant.ResourceId}");
+                    //    requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+                    //    RestResponse responseMap = new RestResponse();
+
+                    //    Task.Run(async () =>
+                    //    {
+                    //        responseMap = await GetResponseContentAsync(client, requestMap) as RestResponse;
+                    //    }).Wait();
+
+                    //    JObject returnedMapJson = JObject.Parse(responseMap.Content);
+                    //    string returnedMap = returnedMapJson["name"].ToString();
+                    //    returnedHistory.Results[i].MapVariant.Name = returnedMap;
+                    //}
+                    else
+                    {
+                        returnedHistory.Results[i].MapVariant.Name = "Unknown Map";
+                    }
                 }
-                else
-                {
-                    returnedHistory.Results[i].Playlist = new Playlist() { name = "Customs" };
-                }
-
-                //// MapVariant.ResourceType == 3 gets MapVariant name, but exceeds API rate limit.
-                //if (returnedHistory.Results[i].MapVariant.ResourceType == 8)
-                //{
-                //    RestRequest requestMap = new RestRequest($"/metadata/h5/metadata/map-variants/{returnedHistory.Results[i].MapVariant.ResourceId}");
-                //    requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
-                //    RestResponse responseMap = new RestResponse();
-
-                //    Task.Run(async () =>
-                //    {
-                //        responseMap = await GetResponseContentAsync(client, requestMap) as RestResponse;
-                //    }).Wait();
-
-                //    JObject returnedMapJson = JObject.Parse(responseMap.Content);
-                //    string returnedMap = returnedMapJson["name"].ToString();
-                //    returnedHistory.Results[i].MapVariant.Name = returnedMap;
-                //}
-                //else
-                //{
-                //    returnedHistory.Results[i].MapVariant.Name = "Unknown Map";
-                //}
             }
             return returnedHistory;
         }
