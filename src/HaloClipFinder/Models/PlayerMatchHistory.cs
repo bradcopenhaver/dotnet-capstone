@@ -161,22 +161,29 @@ namespace HaloClipFinder.Models
                         string returnedMap = returnedMapJson["name"].ToString();
                         returnedHistory.Results[i].MapVariant.Name = returnedMap;
                     }
-                    ////Finds mapvariants for UGC
-                    //else if (returnedHistory.Results[i].MapVariant.OwnerType == "1")
-                    //{
-                    //    RestRequest requestMap = new RestRequest($"/ugc/h5/players/{returnedHistory.Results[i].MapVariant.Owner}/map-variants/{returnedHistory.Results[i].MapVariant.ResourceId}");
-                    //    requestMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
-                    //    RestResponse responseMap = new RestResponse();
+                    //Finds mapvariants for UGC
+                    else if (returnedHistory.Results[i].MapVariant.OwnerType == "1")
+                    {
+                        RestRequest requestUgcMap = new RestRequest($"/ugc/h5/players/{returnedHistory.Results[i].MapVariant.Owner}/mapvariants/{returnedHistory.Results[i].MapVariant.ResourceId}");
+                        requestUgcMap.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+                        RestResponse responseUgcMap = new RestResponse();
 
-                    //    Task.Run(async () =>
-                    //    {
-                    //        responseMap = await GetResponseContentAsync(client, requestMap) as RestResponse;
-                    //    }).Wait();
+                        Task.Run(async () =>
+                        {
+                            responseUgcMap = await GetResponseContentAsync(client, requestUgcMap) as RestResponse;
+                        }).Wait();
 
-                    //    JObject returnedMapJson = JObject.Parse(responseMap.Content);
-                    //    string returnedMap = returnedMapJson["name"].ToString();
-                    //    returnedHistory.Results[i].MapVariant.Name = returnedMap;
-                    //}
+                        if (responseUgcMap.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            JObject returnedMapJson = JObject.Parse(responseUgcMap.Content);
+                            string returnedMap = returnedMapJson["Name"].ToString();
+                            returnedHistory.Results[i].MapVariant.Name = returnedMap;
+                        }
+                        else
+                        {
+                            returnedHistory.Results[i].MapVariant.Name = "Unknown Map";
+                        }
+                    }
                     else
                     {
                         returnedHistory.Results[i].MapVariant.Name = "Unknown Map";
