@@ -104,15 +104,19 @@ namespace HaloClipFinder.Models
 
             Root allEvents = JsonConvert.DeserializeObject<Root>(response.Content);
 
-            for (int i = 0; i < allEvents.GameEvents.Count; i++)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                if (allEvents.GameEvents[i].EventName == "Medal" && allEvents.GameEvents[i].Player.Gamertag == gamertag)
+                for (int i = 0; i < allEvents.GameEvents.Count; i++)
                 {
-                    TimeSpan time = XmlConvert.ToTimeSpan(allEvents.GameEvents[i].TimeSinceStart);
-                    string timeString = time.ToString(@"d\d\ hh\hmm\mss\s").TrimStart(' ', 'd', 'h', 'm', 's', '0');
-                    allEvents.GameEvents[i].TimeSinceStart = timeString;
-                    relevantEvents.Add(allEvents.GameEvents[i]);
+                    if (allEvents.GameEvents[i].EventName == "Medal" && allEvents.GameEvents[i].Player.Gamertag == gamertag)
+                    {
+                        TimeSpan time = XmlConvert.ToTimeSpan(allEvents.GameEvents[i].TimeSinceStart);
+                        string timeString = time.ToString(@"d\d\ hh\hmm\mss\s").TrimStart(' ', 'd', 'h', 'm', 's', '0');
+                        allEvents.GameEvents[i].TimeSinceStart = timeString;
+                        relevantEvents.Add(allEvents.GameEvents[i]);
+                    }
                 }
+
             }
 
             return relevantEvents;
