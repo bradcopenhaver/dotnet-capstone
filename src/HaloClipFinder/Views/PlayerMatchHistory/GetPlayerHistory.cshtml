@@ -7,19 +7,31 @@
 }
 <h3>Recent Matches</h3>
 @foreach (var match in ViewBag.MatchHistory.Results)
-{   
-    var matchResult = "Loss";   
-    @foreach (var team in match.Teams)
+{
+    var matchResult = "";
+    if (match.Players[0].Result == "0")
     {
-        if (team.Rank == "1" && team.Id == match.Players[0].TeamId)
-        {
-            matchResult = "Win";
-            break;
-        }
+        matchResult = "Did Not Finish";
+    }
+    else if (match.Players[0].Result == "1")
+    {
+        matchResult = "Loss";
+    }
+    else if (match.Players[0].Result == "2")
+    {
+        matchResult = "Tie";
+    }
+    else if (match.Players[0].Result == "3")
+    {
+        matchResult = "Win";
+    }
+    else
+    {
+        matchResult = "Result Unknown";
     }
 
     <div class="match">
-       <h4><a href="#" id="match-@i">@match.Playlist.name -- @matchResult </a></h4>
+       <h4><a href="#" id="match-@i">@match.Playlist.name -- @matchResult</a></h4>
         <h5>@match.GameBaseVariant on @match.MapVariant.Name</h5>
         <h5> -- @match.MatchCompletedDate.ISO8601Date</h5>
     </div>
@@ -29,7 +41,7 @@
                 $("#matchEvents").html("<h3>Loading medals...</h3>");
                 $.ajax({
                     type: "POST",
-                    url: '/MatchEvents/GetMatchEvents/',
+                    url: '/MatchEvents/GetMatchEvents/', //change this to something that displays the player list
                     data: {"MatchId": "@match.Id.MatchId", "GamerTag": "@match.Players[0].Player.Gamertag" },
                     datatype: 'html',
                     success: function (response) {
