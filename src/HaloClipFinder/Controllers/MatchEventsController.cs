@@ -16,11 +16,19 @@ namespace HaloClipFinder.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult SetCurrentMatch(string MatchId, string GameMode)
+        {
+            MatchResults.GetMatchResultsById(MatchId, GameMode);
+            MatchEvents.GetMatchEventsById(MatchId);
+
+            return View();
+        }
 
         [HttpPost]
         public IActionResult GetMatchEvents(string MatchId, string GamerTag)
         {
-            List<MatchEvents.GameEvent> relevantEventsList = MatchEvents.GetMatchEvents(MatchId, GamerTag);
+            List<MatchEvents.GameEvent> relevantEventsList = MatchEvents.GetMatchEvents(GamerTag);
             if (relevantEventsList.Count > 0)
             {
                 List<Medal.Root> allMedals = new List<Medal.Root> { };

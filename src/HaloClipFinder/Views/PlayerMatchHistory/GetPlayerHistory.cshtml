@@ -41,8 +41,8 @@
                 $("#matchEvents").html("<h3>Loading medals...</h3>");
                 $.ajax({
                     type: "POST",
-                    url: '/MatchEvents/GetMatchEvents/', //change this to something that displays the player list
-                    data: {"MatchId": "@match.Id.MatchId", "GamerTag": "@match.Players[0].Player.Gamertag" },
+                    url: '/MatchResults/SetCurrentMatch/', 
+                    data: {"MatchId": "@match.Id.MatchId", "GameMode": "@match.Id.GameMode" },
                     datatype: 'html',
                     success: function (response) {
                         $("#matchEvents").html(response);
