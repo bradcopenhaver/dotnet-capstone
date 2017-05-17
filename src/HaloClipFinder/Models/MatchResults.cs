@@ -48,12 +48,19 @@ namespace HaloClipFinder.Models
             public int Count { get; set; }
         }
 
+        public class ImpulseTimelaps
+        {
+            public string Id { get; set; }
+            public string Timelapse { get; set; }
+        }
+
+
         public class FlexibleStats
         {
             public List<MedalStatCount> MedalStatCounts { get; set; }
             public List<ImpulseStatCount> ImpulseStatCounts { get; set; }
             public List<object> MedalTimelapses { get; set; }
-            public List<object> ImpulseTimelapses { get; set; }
+            public List<ImpulseTimelaps> ImpulseTimelapses { get; set; }
         }
 
         public class RewardSets
@@ -92,7 +99,7 @@ namespace HaloClipFinder.Models
 
         public class WeaponId
         {
-            public int StockId { get; set; }
+            public uint StockId { get; set; }
             public List<object> Attachments { get; set; }
         }
 
@@ -112,7 +119,7 @@ namespace HaloClipFinder.Models
             public object MedalId { get; set; }
             public int Count { get; set; }
         }
-        
+
         public class WeaponStat
         {
             public WeaponId WeaponId { get; set; }
@@ -133,6 +140,9 @@ namespace HaloClipFinder.Models
         public class PlayerStat
         {
             public XpInfo XpInfo { get; set; }
+            public object PreviousCsr { get; set; }
+            public object CurrentCsr { get; set; }
+            public int MeasurementMatchesLeft { get; set; }
             public List<KilledOpponentDetail> KilledOpponentDetails { get; set; }
             public List<KilledByOpponentDetail> KilledByOpponentDetails { get; set; }
             public int WarzoneLevel { get; set; }
@@ -197,9 +207,11 @@ namespace HaloClipFinder.Models
         }
 
         public static Root CurrentMatchResults { get; set; }
+        public static List<List<String>> CurrentTeams { get; set; }
 
         public static void GetMatchResultsById(string matchId, string gameMode)
         {
+            CurrentTeams = new List<List<string>> { };
             string mode = "";
             switch (gameMode)
             {
@@ -228,6 +240,19 @@ namespace HaloClipFinder.Models
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 CurrentMatchResults = JsonConvert.DeserializeObject<Root>(response.Content);
+                var possibleTeams = new List<String>[8] { new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { } };
+                for (int i = 0; i < CurrentMatchResults.PlayerStats.Count; i++)
+                {
+                    possibleTeams[CurrentMatchResults.PlayerStats[i].TeamId].Add(CurrentMatchResults.PlayerStats[i].Player.Gamertag);
+                }
+                for (int i = 0; i < possibleTeams.Length; i++)
+                {
+                    if (possibleTeams[i].Count >0)
+                    {
+                        possibleTeams[i].Insert(0, "Team Color");
+                        CurrentTeams.Add(possibleTeams[i]);
+                    }
+                }
             }
         }
 
