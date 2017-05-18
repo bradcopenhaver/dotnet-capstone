@@ -3,6 +3,7 @@
 $(function () {
     $("#GetPlayerHistory").submit(function (event) {
         $("#matchEvents").html("");
+        $("#matchResults").html("");
         $("#gameHistoryResponse").html("<h3>Retrieving...</h3>");
         event.preventDefault();
         $.ajax({

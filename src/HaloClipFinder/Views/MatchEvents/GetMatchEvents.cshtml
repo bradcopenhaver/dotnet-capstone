@@ -18,7 +18,7 @@
                 string top = ViewBag.MatchMedals[i].spriteLocation.top + "px";
             }
             <img class="medal" id="medal-@i" style="background-position:left -@left top -@top" src="~/images/sprite.png" />
-            <p>@ViewBag.MatchMedals[i].name @ViewBag.MatchEvents[i].TimeSinceStart</p>
+            <p>@ViewBag.MatchMedals[i].name @ViewBag.MatchEvents[i].TimeSinceStartDisplay</p>
         </div>
     } 
 </div>

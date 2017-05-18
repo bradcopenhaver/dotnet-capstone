@@ -80,6 +80,7 @@ namespace HaloClipFinder.Models
             public string WeaponStockId { get; set; }
             public string EventName { get; set; }
             public string TimeSinceStart { get; set; }
+            public string TimeSinceStartDisplay { get; set; }
         }
 
         public class Root
@@ -88,7 +89,7 @@ namespace HaloClipFinder.Models
             public string IsCompleteSetOfEvents { get; set; }
             public object Links { get; set; }
         }
-        public static Root currentMatchEvents { get; set; }
+        public static Root CurrentMatchEvents { get; set; }
 
         
 
@@ -96,7 +97,7 @@ namespace HaloClipFinder.Models
         {
             RestClient client = new RestClient("https://www.haloapi.com/");
             RestRequest request = new RestRequest($"/stats/h5/matches/{matchId}/events?");
-            request.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey);
+            request.AddHeader("Ocp-Apim-Subscription-Key", EnvironmentVariables.HaloApiKey2);
             RestResponse response = new RestResponse();
 
             Task.Run(async () =>
@@ -106,7 +107,11 @@ namespace HaloClipFinder.Models
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                currentMatchEvents = JsonConvert.DeserializeObject<Root>(response.Content);
+                CurrentMatchEvents = JsonConvert.DeserializeObject<Root>(response.Content);
+            }
+            else
+            {
+                string error = response.Content.ToString();
             }
         }
 
@@ -114,14 +119,14 @@ namespace HaloClipFinder.Models
         {
             List<GameEvent> relevantEvents = new List<GameEvent> { };
                         
-            for (int i = 0; i < currentMatchEvents.GameEvents.Count; i++)
+            for (int i = 0; i < CurrentMatchEvents.GameEvents.Count; i++)
             {
-                if (currentMatchEvents.GameEvents[i].EventName == "Medal" && currentMatchEvents.GameEvents[i].Player.Gamertag == gamertag)
+                if (CurrentMatchEvents.GameEvents[i].EventName == "Medal" && CurrentMatchEvents.GameEvents[i].Player.Gamertag == gamertag)
                 {
-                    TimeSpan time = XmlConvert.ToTimeSpan(currentMatchEvents.GameEvents[i].TimeSinceStart);
+                    TimeSpan time = XmlConvert.ToTimeSpan(CurrentMatchEvents.GameEvents[i].TimeSinceStart);
                     string timeString = time.ToString(@"d\d\ hh\hmm\mss\s").TrimStart(' ', 'd', 'h', 'm', 's', '0');
-                    currentMatchEvents.GameEvents[i].TimeSinceStart = timeString;
-                    relevantEvents.Add(currentMatchEvents.GameEvents[i]);
+                    CurrentMatchEvents.GameEvents[i].TimeSinceStartDisplay = timeString;
+                    relevantEvents.Add(CurrentMatchEvents.GameEvents[i]);
                 }
             }
 

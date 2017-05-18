@@ -36,19 +36,21 @@
         <h5> -- @match.MatchCompletedDate.ISO8601Date</h5>
     </div>
 
-        <script>
-            $("#match-@i").click(function () {
-                $("#matchEvents").html("<h3>Loading medals...</h3>");
-                $.ajax({
-                    type: "POST",
-                    url: '/MatchResults/SetCurrentMatch/', 
-                    data: {"MatchId": "@match.Id.MatchId", "GameMode": "@match.Id.GameMode" },
-                    datatype: 'html',
-                    success: function (response) {
-                        $("#matchResults").html(response);
-                    }
-                });
-            })
-        </script>
+    <script>
+        $("#match-@i").click(function () {
+            $("#matchResults").html("<h3>Loading results...</h3>");
+            $("#matchEvents").html("");
+            $.ajax({
+                type: "POST",
+                url: '/MatchResults/SetCurrentMatch/', 
+                data: {"MatchId": "@match.Id.MatchId", "GameMode": "@match.Id.GameMode" },
+                datatype: 'html',
+                success: function (response) {
+                    $("#matchResults").html(response);
+                }
+            });
+        })
+    </script>
+
     i++;
 }
