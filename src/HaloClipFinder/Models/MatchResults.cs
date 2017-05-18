@@ -257,7 +257,8 @@ namespace HaloClipFinder.Models
                 {
                     if (possibleTeams[i].Count >0)
                     {
-                        possibleTeams[i].Insert(0, "Team Color");
+                        TeamColor color = TeamColor.GetTeamColor(i.ToString());
+                        possibleTeams[i].Insert(0, color.name);
                         CurrentTeams.Add(possibleTeams[i]);
                     }
                 }
