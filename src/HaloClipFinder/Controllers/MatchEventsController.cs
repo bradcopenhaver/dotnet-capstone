@@ -30,6 +30,7 @@ namespace HaloClipFinder.Controllers
                 }
                 ViewBag.MatchEvents = relevantEventsList;
                 ViewBag.MatchMedals = allMedals;
+                ViewBag.GamerTag = GamerTag;
 
                 return View();
             }

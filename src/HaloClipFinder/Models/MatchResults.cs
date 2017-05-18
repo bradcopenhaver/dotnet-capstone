@@ -243,7 +243,15 @@ namespace HaloClipFinder.Models
                 var possibleTeams = new List<String>[8] { new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { }, new List<String> { } };
                 for (int i = 0; i < CurrentMatchResults.PlayerStats.Count; i++)
                 {
-                    possibleTeams[CurrentMatchResults.PlayerStats[i].TeamId].Add(CurrentMatchResults.PlayerStats[i].Player.Gamertag);
+                    if (CurrentMatchResults.PlayerStats[i].DNF)
+                    {
+                        possibleTeams[CurrentMatchResults.PlayerStats[i].TeamId].Add(CurrentMatchResults.PlayerStats[i].Player.Gamertag + " -- DNF");
+                    }
+                    else
+                    {
+                        possibleTeams[CurrentMatchResults.PlayerStats[i].TeamId].Add(CurrentMatchResults.PlayerStats[i].Player.Gamertag);
+                    }
+                    
                 }
                 for (int i = 0; i < possibleTeams.Length; i++)
                 {

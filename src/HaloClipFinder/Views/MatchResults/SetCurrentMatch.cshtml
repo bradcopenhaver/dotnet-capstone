@@ -10,6 +10,7 @@
     <div>
         <h4>@team[0]</h4>
         <select>
+            <option> </option>
             @for (var i = 1; i < team.Count; i++)
             {
                 <option value="@team[i]">@team[i]</option>
@@ -19,16 +20,16 @@
     </div>
 }
 <script>
-        $("select").change(function () {
-            $("#matchEvents").html("<h3>Loading medals...</h3>");
-            $.ajax({
-                type: "POST",
-                url: '/MatchEvents/GetMatchEvents/',
-                data: {"gamertag": this.value },
-                datatype: 'html',
-                success: function (response) {
-                    $("#matchEvents").html(response);
-                }
-            });
-        })
+    $("select").change(function () {
+        $("#matchEvents").html("<h3>Loading medals...</h3>");
+        $.ajax({
+            type: "POST",
+            url: '/MatchEvents/GetMatchEvents/',
+            data: {"gamertag": this.value },
+            datatype: 'html',
+            success: function (response) {
+                $("#matchEvents").html(response);
+            }
+        });
+    })
 </script>
