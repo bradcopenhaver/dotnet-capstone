@@ -1,4 +1,4 @@
 ﻿Select searched gamertag by default when loading match results / medals.
-Better indication of which game is currently shown.
 Improve interaction with player lists.
 Nix team colors for FFA matches.
+

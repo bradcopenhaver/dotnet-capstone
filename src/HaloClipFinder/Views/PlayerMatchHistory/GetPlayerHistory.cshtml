@@ -30,8 +30,8 @@
         matchResult = "Result Unknown";
     }
 
-    <div class="match">
-       <h4><a href="#" id="match-@i">@match.Playlist.name -- @matchResult</a></h4>
+    <div class="match" id="match-@i">
+       <h4><a href="#">@match.Playlist.name -- @matchResult on @match.Players[0].TeamDisplay</a></h4>
         <h5>@match.GameBaseVariant on @match.MapVariant.Name</h5>
         <h5> -- @match.MatchCompletedDate.ISO8601Date</h5>
     </div>
@@ -40,6 +40,8 @@
         $("#match-@i").click(function () {
             $("#matchResults").html("<h3>Loading results...</h3>");
             $("#matchEvents").html("");
+            $(".selected-match").removeClass("selected-match");
+            $(this).addClass("selected-match");
             $.ajax({
                 type: "POST",
                 url: '/MatchResults/SetCurrentMatch/', 

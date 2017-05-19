@@ -63,6 +63,7 @@ namespace HaloClipFinder.Models
             public string TotalAssists { get; set; }
             public object PreMatchRatings { get; set; }
             public object PostMatchRatings { get; set; }
+            public string TeamDisplay { get; set; }
         }
 
         public class Links
@@ -140,6 +141,9 @@ namespace HaloClipFinder.Models
                     //Converts GameCompletedDate from ISO 8601 to readable string
                     string formattedTime = DateTime.ParseExact(returnedHistory.Results[i].MatchCompletedDate.ISO8601Date.Replace("T", " "), "u", CultureInfo.InvariantCulture).ToString();
                     returnedHistory.Results[i].MatchCompletedDate.ISO8601Date = formattedTime.Remove(formattedTime.Length-12);
+
+                    //Gets team name from Json
+                    returnedHistory.Results[i].Players[0].TeamDisplay = TeamColor.GetTeamColor(returnedHistory.Results[i].Players[0].TeamId).name;
 
                     //Finds GameBaseVariant from Json
                     returnedHistory.Results[i].GameBaseVariant = GameBaseVariant.GetGameBaseVariant(returnedHistory.Results[i].GameBaseVariantId);

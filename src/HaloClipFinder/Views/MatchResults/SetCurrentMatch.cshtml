@@ -5,23 +5,24 @@
     Layout = "";
 }
 <h3>Match Results</h3>
-@foreach (var team in ViewBag.CurrentTeams)
+@for (var i = 0; i< ViewBag.CurrentTeams.Count; i++)
 {
     <div>
-        <h4>@team[0]</h4>
-        <select>
-            <option> </option>
-            @for (var i = 1; i < team.Count; i++)
+        <h4>@ViewBag.CurrentTeams[i][0]</h4>
+        <select class="player-list" id="team-@i">
+            <option value=""> </option>
+            @for (var j = 1; j < ViewBag.CurrentTeams[i].Count; j++)
             {
-                <option value="@team[i]">@team[i]</option>
+                <option value="@ViewBag.CurrentTeams[i][j]">@ViewBag.CurrentTeams[i][j]</option>
             }
         </select>
         
     </div>
 }
 <script>
-    $("select").change(function () {
+    $(".player-list").change(function () {
         $("#matchEvents").html("<h3>Loading medals...</h3>");
+        var selection = $(this).prop('selectedIndex');
         $.ajax({
             type: "POST",
             url: '/MatchEvents/GetMatchEvents/',
@@ -31,5 +32,7 @@
                 $("#matchEvents").html(response);
             }
         });
+        $(".player-list").prop('selectedIndex', 0);
+        $(this).prop('selectedIndex', selection);
     })
 </script>
